@@ -26,12 +26,12 @@
   revision = "4239b77079c7b5d1243b7b4736304ce8ddb6f0f2"
 
 [[projects]]
-  digest = "1:a12d94258c5298ead75e142e8001224bf029f302fed9e96cd39c0eaf90f3954d"
+  digest = "1:896136216092c23186d346789c7bb68656eb934df85e3f3ab99aa91882ca8db2"
   name = "github.com/boltdb/bolt"
   packages = ["."]
   pruneopts = "NUT"
-  revision = "2f1ce7a837dcb8da3ec595b1dac9d0632f0f99e8"
-  version = "v1.3.1"
+  revision = "aa66506030b376f848667d84d2596faa8a7099ea"
+  version = "v1.0"
 
 [[projects]]
   digest = "1:9f35c1344b56e5868d511d231f215edd0650aa572664f856444affdd256e43e4"
@@ -42,12 +42,28 @@
   version = "v1.0.0"
 
 [[projects]]
+  branch = "master"
+  digest = "1:b521f10a2d8fa85c04a8ef4e62f2d1e14d303599a55d64dabf9f5a02f84d35eb"
+  name = "github.com/golang/sync"
+  packages = ["errgroup"]
+  pruneopts = "NUT"
+  revision = "37e7f081c4d4c64e13b10787722085407fe5d15f"
+
+[[projects]]
   digest = "1:f5169729244becc423886eae4d72547e28ac3f13f861bed8a9d749bc7238a1c3"
   name = "github.com/jmank88/nuts"
   packages = ["."]
   pruneopts = "NUT"
   revision = "8b28145dffc87104e66d074f62ea8080edfad7c8"
   version = "v0.3.0"
+
+[[projects]]
+  digest = "1:a4df73029d2c42fabcb6b41e327d2f87e685284ec03edf76921c267d9cfc9c23"
+  name = "github.com/mitchellh/go-homedir"
+  packages = ["."]
+  pruneopts = "NUT"
+  revision = "ae18d6b8b3205b561c79e8e5f69bff09736185f4"
+  version = "v1.0.0"
 
 [[projects]]
   branch = "master"
@@ -82,30 +98,6 @@
   revision = "836a144573533ea4da4e6929c235fd348aed1c80"
 
 [[projects]]
-  branch = "master"
-  digest = "1:6ad2104db8f34b8656382ef0a7297b9a5cc42e7bdce95d968e02b92fc97470d1"
-  name = "golang.org/x/net"
-  packages = ["context"]
-  pruneopts = "NUT"
-  revision = "66aacef3dd8a676686c7ae3716979581e8b03c47"
-
-[[projects]]
-  branch = "master"
-  digest = "1:39ebcc2b11457b703ae9ee2e8cca0f68df21969c6102cb3b705f76cca0ea0239"
-  name = "golang.org/x/sync"
-  packages = ["errgroup"]
-  pruneopts = "NUT"
-  revision = "f52d1811a62927559de87708c8913c1650ce4f26"
-
-[[projects]]
-  branch = "master"
-  digest = "1:51912e607c5e28a89fdc7e41d3377b92086ab7f76ded236765dbf98d0a704c5d"
-  name = "golang.org/x/sys"
-  packages = ["unix"]
-  pruneopts = "NUT"
-  revision = "bb24a47a89eac6c1227fbcb2ae37a8b9ed323366"
-
-[[projects]]
   branch = "v2"
   digest = "1:13e704c08924325be00f96e47e7efe0bfddf0913cdfc237423c83f9b183ff590"
   name = "gopkg.in/yaml.v2"
@@ -122,12 +114,13 @@
     "github.com/armon/go-radix",
     "github.com/boltdb/bolt",
     "github.com/golang/protobuf/proto",
+    "github.com/golang/sync/errgroup",
     "github.com/jmank88/nuts",
+    "github.com/mitchellh/go-homedir",
     "github.com/nightlyone/lockfile",
     "github.com/pelletier/go-toml",
     "github.com/pkg/errors",
     "github.com/sdboyer/constext",
-    "golang.org/x/sync/errgroup",
     "gopkg.in/yaml.v2",
   ]
   solver-name = "gps-cdcl"

@@ -11,8 +11,8 @@ import (
 	"path/filepath"
 	"sync"
 
+	"github.com/golang/sync/errgroup"
 	"github.com/pkg/errors"
-	"golang.org/x/sync/errgroup"
 )
 
 // A Solution is returned by a solver run. It is mostly just a Lock, with some
