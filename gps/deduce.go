@@ -16,7 +16,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/armon/go-radix"
+	radix "github.com/armon/go-radix"
 	"github.com/pkg/errors"
 )
 
@@ -679,6 +679,11 @@ func (dc *deductionCoordinator) deduceKnownPaths(path string) (pathDeduction, er
 			mb:   mb,
 		}, nil
 	}
+	// Try mirrors
+	pd, ok := dc.deduceMirrorPaths(path, u)
+	if ok {
+		return pd, nil
+	}
 
 	// Next, try the vcs extension-based (infix) matcher
 	exm := vcsExtensionDeducer{regexp: vcsExtensionRegex}
@@ -889,4 +894,44 @@ func getMetadata(ctx context.Context, path, scheme string) (string, string, stri
 		return "", "", "", errors.Errorf("go-import metadata not found")
 	}
 	return imports[match].Prefix, imports[match].VCS, imports[match].RepoRoot, nil
+}
+
+func (dc *deductionCoordinator) deduceMirrorPaths(path string, uri *url.URL) (pd pathDeduction, ok bool) {
+	schemes := []string{"https", "http"}
+	mirrors := map[string]string{
+		// golang.org/x
+		"golang.org/x/blog":   "github.com/golang/blog",
+		"golang.org/x/crypto": "github.com/golang/crypto",
+		"golang.org/x/exp":    "github.com/golang/exp",
+		"golang.org/x/image":  "github.com/golang/image",
+		"golang.org/x/mobile": "github.com/golang/mobile",
+		"golang.org/x/net":    "github.com/golang/net",
+		"golang.org/x/sys":    "github.com/golang/sys",
+		"golang.org/x/talks":  "github.com/golang/talks",
+		"golang.org/x/text":   "github.com/golang/text",
+		"golang.org/x/tools":  "github.com/golang/tools",
+		// google.golang.org
+		"google.golang.org/grpc":     "github.com/grpc/grpc-go",
+		"google.golang.org/genproto": "github.com/google/go-genproto",
+	}
+
+	for root, source := range mirrors {
+		if strings.HasPrefix(path, root) {
+			ok = true
+			i := strings.Index(source, "/")
+			uri.Host = source[:i]
+			uri.Path = source[i:]
+			mb := make(maybeSources, len(schemes))
+			for k, scheme := range schemes {
+				u := *uri
+				u.Scheme = scheme
+				mb[k] = maybeGitSource{url: &u}
+			}
+			pd = pathDeduction{
+				root: root,
+				mb:   mb,
+			}
+		}
+	}
+	return
 }
