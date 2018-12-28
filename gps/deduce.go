@@ -900,16 +900,17 @@ func (dc *deductionCoordinator) deduceMirrorPaths(path string, uri *url.URL) (pd
 	schemes := []string{"https", "http"}
 	mirrors := map[string]string{
 		// golang.org/x
-		"golang.org/x/blog":   "github.com/golang/blog",
-		"golang.org/x/crypto": "github.com/golang/crypto",
-		"golang.org/x/exp":    "github.com/golang/exp",
-		"golang.org/x/image":  "github.com/golang/image",
-		"golang.org/x/mobile": "github.com/golang/mobile",
-		"golang.org/x/net":    "github.com/golang/net",
-		"golang.org/x/sys":    "github.com/golang/sys",
-		"golang.org/x/talks":  "github.com/golang/talks",
-		"golang.org/x/text":   "github.com/golang/text",
-		"golang.org/x/tools":  "github.com/golang/tools",
+		"golang.org/x/blog":          "github.com/golang/blog",
+		"golang.org/x/crypto":        "github.com/golang/crypto",
+		"golang.org/x/exp":           "github.com/golang/exp",
+		"golang.org/x/image":         "github.com/golang/image",
+		"golang.org/x/mobile":        "github.com/golang/mobile",
+		"golang.org/x/net":           "github.com/golang/net",
+		"golang.org/x/sys":           "github.com/golang/sys",
+		"golang.org/x/talks":         "github.com/golang/talks",
+		"golang.org/x/text":          "github.com/golang/text",
+		"golang.org/x/tools":         "github.com/golang/tools",
+		"golang.org/x/sync/errgroup": "github.com/golang/sync/errgroup",
 		// google.golang.org
 		"google.golang.org/grpc":     "github.com/grpc/grpc-go",
 		"google.golang.org/genproto": "github.com/google/go-genproto",
