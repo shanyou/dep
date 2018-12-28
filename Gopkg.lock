@@ -3,43 +3,43 @@
 
 [[projects]]
   branch = "2.x"
-  digest = "1:ee2887fecb4d923fa90f8dd9cf33e876bf9260fed62f2ca5a5c3f41b4eb07683"
+  digest = "1:f198c9213547e59cb10260bf9c3c1bf6e760298ef5268e1f980d950e0d317880"
   name = "github.com/Masterminds/semver"
   packages = ["."]
   pruneopts = "NUT"
-  revision = "24642bd0573145a5ee04f9be773641695289be46"
+  revision = "3c92f33da7a84de8314f3ff82e5f919b89fd1492"
 
 [[projects]]
-  digest = "1:442020d26d1f891d5014cae4353b6ff589562c2b303504627de3660adf3fb217"
+  digest = "1:43e3179235895fe92135ab152876c60c1eb4e13c4a9d70edf30e13150fc93528"
   name = "github.com/Masterminds/vcs"
   packages = ["."]
   pruneopts = "NUT"
-  revision = "3084677c2c188840777bff30054f2b553729d329"
-  version = "v1.11.1"
+  revision = "6f1c6d150500e452704e9863f68c2559f58616bf"
+  version = "v1.12.0"
 
 [[projects]]
-  branch = "master"
-  digest = "1:60861e762bdbe39c4c7bf292c291329b731c9925388fd41125888f5c1c595feb"
+  digest = "1:e5ca3dcabf1452b51be600af6e2ce0a93a94978ae231af802cf9736bdbd835cb"
   name = "github.com/armon/go-radix"
   packages = ["."]
   pruneopts = "NUT"
-  revision = "4239b77079c7b5d1243b7b4736304ce8ddb6f0f2"
+  revision = "1a2de0c21c94309923825da3df33a4381872c795"
+  version = "v1.0.0"
 
 [[projects]]
-  digest = "1:896136216092c23186d346789c7bb68656eb934df85e3f3ab99aa91882ca8db2"
+  digest = "1:a12d94258c5298ead75e142e8001224bf029f302fed9e96cd39c0eaf90f3954d"
   name = "github.com/boltdb/bolt"
   packages = ["."]
   pruneopts = "NUT"
-  revision = "aa66506030b376f848667d84d2596faa8a7099ea"
-  version = "v1.0"
+  revision = "2f1ce7a837dcb8da3ec595b1dac9d0632f0f99e8"
+  version = "v1.3.1"
 
 [[projects]]
-  digest = "1:9f35c1344b56e5868d511d231f215edd0650aa572664f856444affdd256e43e4"
+  digest = "1:97df918963298c287643883209a2c3f642e6593379f97ab400c2a2e219ab647d"
   name = "github.com/golang/protobuf"
   packages = ["proto"]
   pruneopts = "NUT"
-  revision = "925541529c1fa6821df4e44ce2723319eb2be768"
-  version = "v1.0.0"
+  revision = "aa810b61a9c79d51363740d207bb46cf8e620ed5"
+  version = "v1.2.0"
 
 [[projects]]
   branch = "master"
@@ -67,11 +67,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:01af3a6abe28784782680e1f75ef8767cfc5d4b230dc156ff7eb8db395cbbfd2"
+  digest = "1:26217ee135b8157549e648efe97dff3282e4bd597a912d784db964df41067f29"
   name = "github.com/nightlyone/lockfile"
   packages = ["."]
   pruneopts = "NUT"
-  revision = "e83dc5e7bba095e8d32fb2124714bf41f2a30cb5"
+  revision = "0ad87eef1443f64d3d8c50da647e2b1552851124"
 
 [[projects]]
   digest = "1:51ea800cff51752ff68e12e04106f5887b4daec6f9356721238c28019f0b42db"
@@ -98,12 +98,20 @@
   revision = "836a144573533ea4da4e6929c235fd348aed1c80"
 
 [[projects]]
-  branch = "v2"
-  digest = "1:13e704c08924325be00f96e47e7efe0bfddf0913cdfc237423c83f9b183ff590"
+  branch = "master"
+  digest = "1:1d7f49852f5b3d448b8c5534c4a122e37e77b030088a66d21239ccf5640bc969"
+  name = "golang.org/x/sys"
+  packages = ["unix"]
+  pruneopts = "NUT"
+  revision = "b4a75ba826a64a70990f11a225237acd6ef35c9f"
+
+[[projects]]
+  digest = "1:18108594151654e9e696b27b181b953f9a90b16bf14d253dd1b397b025a1487f"
   name = "gopkg.in/yaml.v2"
   packages = ["."]
   pruneopts = "NUT"
-  revision = "d670f9405373e636a5a2765eea47fac0c9bc91a4"
+  revision = "51d6538a90f86fe93ac480b35f37b2be17fef232"
+  version = "v2.2.2"
 
 [solve-meta]
   analyzer-name = "dep"
