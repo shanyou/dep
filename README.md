@@ -14,8 +14,8 @@ repos:
   repo: https://github.com/golang/sys.git
   vcs: git
 - prefix: cloud.google.com/go
-repo: https://github.com/googleapis/google-cloud-go.git
-vcs: git
+  repo: https://github.com/googleapis/google-cloud-go.git
+  vcs: git
 ```
 
 原理是在deduce时，获取httpmeata时直接查镜像。
