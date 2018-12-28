@@ -5,6 +5,57 @@
   <a href="https://goreportcard.com/report/github.com/golang/dep"><img src="https://goreportcard.com/badge/github.com/golang/dep" /></a>
 </p>
 
+## 修改内容
+仿照`glide`增加镜像功能。`mirror.yaml`在`~/.dep/mirror.yaml`中。格式大致如下：
+
+```yaml
+repos:
+- prefix: golang.org/x/sys
+  repo: https://github.com/golang/sys.git
+  vcs: git
+- prefix: cloud.google.com/go
+repo: https://github.com/googleapis/google-cloud-go.git
+vcs: git
+```
+
+原理是在deduce时，获取httpmeata时直接查镜像。
+``` go
+func (hmd *httpMetadataDeducer) deduce(ctx context.Context, path string) (pathDeduction, error) {
+	hmd.once.Do(func() {
+		opath := path
+		u, path, err := normalizeURI(path)
+		if err != nil {
+			err = errors.Wrapf(err, "unable to normalize URI")
+			hmd.deduceErr = err
+			return
+		}
+
+		pd := pathDeduction{}
+
+		// Make the HTTP call to attempt to retrieve go-get metadata
+		var root, vcs, reporoot string
+		exists, reporoot, vcs := mirrors.Get(path)
+		if !exists {
+			err = hmd.suprvsr.do(ctx, path, ctHTTPMetadata, func(ctx context.Context) error {
+				root, vcs, reporoot, err = getMetadata(ctx, path, u.Scheme)
+				if err != nil {
+					err = errors.Wrapf(err, "unable to read metadata")
+				}
+				return err
+			})
+			if err != nil {
+				err = errors.Wrapf(err, "unable to deduce repository and source type for %q", opath)
+				hmd.deduceErr = err
+				return
+			}
+		} else {
+			root = path
+		}
+
+    pd.root = root
+    ...
+```
+
 ## Dep
 
 `dep` is a dependency management tool for Go. It requires Go 1.9 or newer to compile.

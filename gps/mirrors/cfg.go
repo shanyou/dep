@@ -5,7 +5,7 @@ import (
 	"sort"
 	"strings"
 
-	"gopkg.in/yaml.v2"
+	yaml "gopkg.in/yaml.v2"
 )
 
 // Mirrors contains global mirrors to local configuration
@@ -81,7 +81,7 @@ func (o MirrorRepos) Less(i, j int) bool {
 	// Names are normalized to lowercase because case affects sorting order. For
 	// example, Masterminds comes before kylelemons. Making them lowercase
 	// causes kylelemons to come first which is what is expected.
-	return strings.ToLower(o[i].Original) < strings.ToLower(o[j].Original)
+	return strings.ToLower(o[i].Prefix) < strings.ToLower(o[j].Prefix)
 }
 
 // Swap is needed for the sort interface. It swaps the position of two
@@ -92,7 +92,7 @@ func (o MirrorRepos) Swap(i, j int) {
 
 // MirrorRepo represents a single repo mirror
 type MirrorRepo struct {
-	Original string `yaml:"original"`
-	Repo     string `yaml:"repo"`
-	Vcs      string `yaml:"vcs,omitempty"`
+	Prefix string `yaml:"prefix"`
+	Repo   string `yaml:"repo"`
+	Vcs    string `yaml:"vcs,omitempty"`
 }

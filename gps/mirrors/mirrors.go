@@ -44,7 +44,7 @@ func Load() error {
 
 	var ov *Mirrors
 	if _, err := os.Stat(op); os.IsNotExist(err) {
-		log.Fatalln("No mirrors.yaml file exists")
+		log.Println("No mirrors.yaml file exists")
 		ov = &Mirrors{
 			Repos: make(MirrorRepos, 0),
 		}
@@ -62,14 +62,14 @@ func Load() error {
 		return fmt.Errorf("Error reading existing mirrors.yaml file: %s", err)
 	}
 
-	log.Println("Loading mirrors from mirrors.yaml file")
+	// log.Println("Loading mirrors from mirrors.yaml file")
 	for _, o := range ov.Repos {
-		log.Println("Found mirror: %s to %s (%s)", o.Original, o.Repo, o.Vcs)
+		// log.Println(fmt.Sprintf("Found mirror: %s to %s (%s)", o.Original, o.Repo, o.Vcs))
 		no := &mirror{
 			Repo: o.Repo,
 			Vcs:  o.Vcs,
 		}
-		mirrors[o.Original] = no
+		mirrors[o.Prefix] = no
 	}
 
 	return nil

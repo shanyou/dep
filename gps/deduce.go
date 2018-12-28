@@ -16,7 +16,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/armon/go-radix"
+	radix "github.com/armon/go-radix"
+	"github.com/golang/dep/gps/mirrors"
 	"github.com/pkg/errors"
 )
 
@@ -720,18 +721,24 @@ func (hmd *httpMetadataDeducer) deduce(ctx context.Context, path string) (pathDe
 
 		// Make the HTTP call to attempt to retrieve go-get metadata
 		var root, vcs, reporoot string
-		err = hmd.suprvsr.do(ctx, path, ctHTTPMetadata, func(ctx context.Context) error {
-			root, vcs, reporoot, err = getMetadata(ctx, path, u.Scheme)
+		exists, reporoot, vcs := mirrors.Get(path)
+		if !exists {
+			err = hmd.suprvsr.do(ctx, path, ctHTTPMetadata, func(ctx context.Context) error {
+				root, vcs, reporoot, err = getMetadata(ctx, path, u.Scheme)
+				if err != nil {
+					err = errors.Wrapf(err, "unable to read metadata")
+				}
+				return err
+			})
 			if err != nil {
-				err = errors.Wrapf(err, "unable to read metadata")
+				err = errors.Wrapf(err, "unable to deduce repository and source type for %q", opath)
+				hmd.deduceErr = err
+				return
 			}
-			return err
-		})
-		if err != nil {
-			err = errors.Wrapf(err, "unable to deduce repository and source type for %q", opath)
-			hmd.deduceErr = err
-			return
+		} else {
+			root = path
 		}
+
 		pd.root = root
 
 		// If we got something back at all, then it supersedes the actual input for

@@ -18,6 +18,7 @@ import (
 
 	"github.com/golang/dep"
 	"github.com/golang/dep/gps"
+	"github.com/golang/dep/gps/mirrors"
 	"github.com/golang/dep/gps/paths"
 	"github.com/golang/dep/gps/pkgtree"
 	"github.com/golang/dep/gps/verify"
@@ -158,6 +159,8 @@ func (cmd *ensureCommand) Run(ctx *dep.Ctx, args []string) error {
 	if err := cmd.validateFlags(); err != nil {
 		return err
 	}
+
+	mirrors.Load()
 
 	p, err := ctx.LoadProject()
 	if err != nil {
