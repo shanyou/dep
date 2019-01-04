@@ -238,6 +238,7 @@ func commandList() []command {
 		&pruneCommand{},
 		&versionCommand{},
 		&checkCommand{},
+		&mirrorCommand{},
 	}
 }
 
