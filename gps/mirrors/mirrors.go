@@ -3,7 +3,6 @@ package mirrors
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"path/filepath"
 
@@ -44,7 +43,7 @@ func Load() error {
 
 	var ov *Mirrors
 	if _, err := os.Stat(op); os.IsNotExist(err) {
-		log.Println("No mirrors.yaml file exists")
+		// log.Println("No mirrors.yaml file exists")
 		ov = &Mirrors{
 			Repos: make(MirrorRepos, 0),
 		}

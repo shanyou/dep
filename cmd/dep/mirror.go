@@ -2,6 +2,8 @@ package main
 
 import (
 	"flag"
+	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/golang/dep"
@@ -72,13 +74,111 @@ func (cmd *mirrorCommand) Run(ctx *dep.Ctx, args []string) error {
 	}
 
 	mirrors.Load()
-
+	home := mirrors.Home()
+	op := filepath.Join(home, "mirrors.yaml")
+	_, err := os.Stat(op)
+	fileNotExists := os.IsNotExist(err)
 	if cmd.add {
+		var ov *mirrors.Mirrors
+		if fileNotExists {
+			ctx.Out.Println("No mirrors.yaml file exists. Creating new one")
+			ov = &mirrors.Mirrors{
+				Repos: make(mirrors.MirrorRepos, 0),
+			}
+		} else {
+			ov, err = mirrors.ReadMirrorsFile(op)
+			if err != nil {
+				ctx.Err.Printf("Error reading existing mirrors.yaml file: %s\n", err)
+			}
+		}
 
+		found := false
+		for i, re := range ov.Repos {
+			if re.Prefix == cmd.prefix {
+				found = true
+				ctx.Out.Printf("%s found in mirrors. Replacing with new settings\n", cmd.prefix)
+				ov.Repos[i].Repo = cmd.repo
+				ov.Repos[i].Vcs = cmd.vcs
+				break
+			}
+		}
+
+		if !found {
+			nr := &mirrors.MirrorRepo{
+				Prefix: cmd.prefix,
+				Repo:   cmd.repo,
+				Vcs:    cmd.vcs,
+			}
+			ov.Repos = append(ov.Repos, nr)
+		}
+
+		ctx.Out.Printf("%s being set to %s\n", cmd.prefix, cmd.repo)
+
+		err := ov.WriteFile(op)
+		if err != nil {
+			ctx.Err.Printf("Error writing mirrors.yaml file: %s\n", err)
+		} else {
+			ctx.Out.Printf("mirrors.yaml written with changes")
+		}
 	} else if cmd.remove {
+		if fileNotExists {
+			ctx.Out.Println("mirrors.yaml file not found")
+			return nil
+		}
 
+		ov, err := mirrors.ReadMirrorsFile(op)
+		if err != nil {
+			ctx.Err.Printf("Unable to read mirrors.yaml file: %s\n", err)
+			return nil
+		}
+
+		var nre mirrors.MirrorRepos
+		var found bool
+		for _, re := range ov.Repos {
+			if re.Prefix != cmd.prefix {
+				nre = append(nre, re)
+			} else {
+				found = true
+			}
+		}
+
+		if !found {
+			ctx.Out.Printf("%s was not found in mirrors\n", cmd.prefix)
+		} else {
+			ctx.Out.Printf("%s was removed from mirrors\n", cmd.prefix)
+			ov.Repos = nre
+
+			err = ov.WriteFile(op)
+			if err != nil {
+				ctx.Err.Printf("Error writing mirrors.yaml file: %s\n", err)
+			} else {
+				ctx.Out.Println("mirrors.yaml written with changes")
+			}
+		}
 	} else if cmd.list {
+		if fileNotExists {
+			ctx.Out.Println("mirrors.yaml file not found")
+			return nil
+		}
+		ov, err := mirrors.ReadMirrorsFile(op)
+		if err != nil {
+			ctx.Err.Printf("Unable to read mirrors.yaml file: %s\n", err)
+			return nil
+		}
 
+		if len(ov.Repos) == 0 {
+			ctx.Out.Println("No mirrors found")
+			return nil
+		}
+
+		ctx.Out.Println("Mirrors...")
+		for _, r := range ov.Repos {
+			if r.Vcs == "" {
+				ctx.Out.Printf("--> %s replaced by %s\n", r.Prefix, r.Repo)
+			} else {
+				ctx.Out.Printf("--> %s replaced by %s (%s)\n", r.Prefix, r.Repo, r.Vcs)
+			}
+		}
 	}
 
 	return nil
