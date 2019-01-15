@@ -721,7 +721,7 @@ func (hmd *httpMetadataDeducer) deduce(ctx context.Context, path string) (pathDe
 
 		// Make the HTTP call to attempt to retrieve go-get metadata
 		var root, vcs, reporoot string
-		exists, reporoot, vcs := mirrors.Get(path)
+		exists, root, reporoot, vcs := mirrors.FindRoot(path)
 		if !exists {
 			err = hmd.suprvsr.do(ctx, path, ctHTTPMetadata, func(ctx context.Context) error {
 				root, vcs, reporoot, err = getMetadata(ctx, path, u.Scheme)
@@ -735,8 +735,6 @@ func (hmd *httpMetadataDeducer) deduce(ctx context.Context, path string) (pathDe
 				hmd.deduceErr = err
 				return
 			}
-		} else {
-			root = path
 		}
 
 		pd.root = root

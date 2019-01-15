@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	homedir "github.com/mitchellh/go-homedir"
 )
@@ -33,6 +34,21 @@ func Get(k string) (bool, string, string) {
 	}
 
 	return true, o.Repo, o.Vcs
+}
+
+// FindRoot try to find root mirror for given path
+// - bool if found
+// - root path
+// - new repo location
+// - vcs type
+func FindRoot(path string) (bool, string, string, string) {
+	for k, v := range mirrors {
+		if strings.Contains(path, k) {
+			return true, k, v.Repo, v.Vcs
+		}
+	}
+
+	return false, "", "", ""
 }
 
 // Load pulls the mirrors into memory
