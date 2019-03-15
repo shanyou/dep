@@ -14,6 +14,7 @@ import (
 
 	"github.com/golang/dep"
 	"github.com/golang/dep/gps"
+	"github.com/golang/dep/gps/mirrors"
 	"github.com/golang/dep/internal/fs"
 	"github.com/pkg/errors"
 )
@@ -101,6 +102,8 @@ func (cmd *initCommand) Run(ctx *dep.Ctx, args []string) error {
 	if ctx.Verbose {
 		ctx.Out.Println("Getting direct dependencies...")
 	}
+
+	mirrors.Load()
 
 	directDeps, err := p.GetDirectDependencyNames(sm)
 	if err != nil {
